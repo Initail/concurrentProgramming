@@ -1,6 +1,6 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
-
+/.mvn/
 ### STS ###
 .apt_generated
 .classpath
@@ -23,3 +23,5 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+src/main/resources/static/
+src/main/resources/templates/
