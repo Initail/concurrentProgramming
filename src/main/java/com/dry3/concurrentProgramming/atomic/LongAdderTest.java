@@ -1,6 +1,7 @@
-package com.dry3.concurrentProgramming;
+package com.dry3.concurrentProgramming.atomic;
 
 import com.dry3.concurrentProgramming.annotations.NotThreadSafe;
+import com.dry3.concurrentProgramming.annotations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CountDownLatch;
@@ -8,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * @author Administrator
@@ -17,16 +19,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 @Slf4j
-@NotThreadSafe
-public class ConcurrentTest {
+@ThreadSafe
+public class LongAdderTest {
 
     private static int threadTotal = 50;
 
     private static int clientTotal = 5000;
 
-    private static int count = 0;
 
-    private static AtomicInteger atomicInteger = new AtomicInteger();
+    private static LongAdder longAdder = new LongAdder();
 
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -36,8 +37,7 @@ public class ConcurrentTest {
             executorService.execute(() -> {
                 try {
                     semaphore.acquire();
-                    add();
-                    incrementAndGet();
+                    increment();
                     semaphore.release();
                 } catch (InterruptedException e) {
                     log.error("exception",e);
@@ -47,13 +47,11 @@ public class ConcurrentTest {
         }
         countDownLatch.await();
         executorService.shutdown();
-        log.info("count:{}---atomicInteger:{}", count, atomicInteger.get());
+        log.info("longAdder:{}", longAdder);
     }
 
-    private static void add() {
-        count++;
-    }
-    private static void incrementAndGet() {
-        atomicInteger.incrementAndGet();
+
+    private static void increment() {
+        longAdder.increment();
     }
 }

@@ -1,32 +1,30 @@
-package com.dry3.concurrentProgramming;
+package com.dry3.concurrentProgramming.atomic;
 
-import com.dry3.concurrentProgramming.annotations.NotThreadSafe;
+import com.dry3.concurrentProgramming.annotations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Administrator
  * @email zyl@dry3.cn
  * @date 2018/11/18
- * @time 9:47
+ * @time 13:47
  */
 
 @Slf4j
-@NotThreadSafe
-public class ConcurrentTest {
-
-    private static int threadTotal = 50;
+@ThreadSafe
+public class AtomicBooleanTest {
 
     private static int clientTotal = 5000;
 
-    private static int count = 0;
+    private static int threadTotal = 200;
 
-    private static AtomicInteger atomicInteger = new AtomicInteger();
+    private static AtomicBoolean isHandle = new AtomicBoolean(false);
 
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -36,24 +34,25 @@ public class ConcurrentTest {
             executorService.execute(() -> {
                 try {
                     semaphore.acquire();
-                    add();
-                    incrementAndGet();
+                    compareAndSet();
                     semaphore.release();
                 } catch (InterruptedException e) {
-                    log.error("exception",e);
+                    e.printStackTrace();
                 }
                 countDownLatch.countDown();
             });
         }
         countDownLatch.await();
         executorService.shutdown();
-        log.info("count:{}---atomicInteger:{}", count, atomicInteger.get());
+        log.info("atomicBoolean : {}", isHandle);
+
     }
 
-    private static void add() {
-        count++;
+    private static void compareAndSet() {
+        if (isHandle.compareAndSet(false, true)) {
+            log.info("Change is Success1 : {}", isHandle.get());
+        }
     }
-    private static void incrementAndGet() {
-        atomicInteger.incrementAndGet();
-    }
+
+
 }

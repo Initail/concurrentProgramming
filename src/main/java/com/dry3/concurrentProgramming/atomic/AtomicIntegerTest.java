@@ -1,6 +1,6 @@
-package com.dry3.concurrentProgramming;
+package com.dry3.concurrentProgramming.atomic;
 
-import com.dry3.concurrentProgramming.annotations.NotThreadSafe;
+import com.dry3.concurrentProgramming.annotations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CountDownLatch;
@@ -17,14 +17,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 @Slf4j
-@NotThreadSafe
-public class ConcurrentTest {
+@ThreadSafe
+public class AtomicIntegerTest {
 
     private static int threadTotal = 50;
 
     private static int clientTotal = 5000;
 
-    private static int count = 0;
 
     private static AtomicInteger atomicInteger = new AtomicInteger();
 
@@ -36,7 +35,6 @@ public class ConcurrentTest {
             executorService.execute(() -> {
                 try {
                     semaphore.acquire();
-                    add();
                     incrementAndGet();
                     semaphore.release();
                 } catch (InterruptedException e) {
@@ -47,12 +45,9 @@ public class ConcurrentTest {
         }
         countDownLatch.await();
         executorService.shutdown();
-        log.info("count:{}---atomicInteger:{}", count, atomicInteger.get());
+        log.info("atomicInteger:{}", atomicInteger.get());
     }
 
-    private static void add() {
-        count++;
-    }
     private static void incrementAndGet() {
         atomicInteger.incrementAndGet();
     }
