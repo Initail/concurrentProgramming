@@ -1,4 +1,4 @@
-package com.dry3.concurrentProgramming.immutable;
+package com.dry3.concurrentProgramming.example.immutable;
 
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;

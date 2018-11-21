@@ -1,19 +1,17 @@
-package com.dry3.concurrentProgramming.unsafe;
+package com.dry3.concurrentProgramming.example.unsafe;
 
 import com.dry3.concurrentProgramming.annotations.NotThreadSafe;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashSet;
-import java.util.List;
+import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 
 /**
- * HashSet是线程不安全的
+ * HashMap是线程不安全的
  *
  * @author Administrator
  * @email zyl@dry3.cn
@@ -23,14 +21,13 @@ import java.util.concurrent.Semaphore;
 
 @Slf4j
 @NotThreadSafe
-public class HashSetTest {
-
+public class HashMapTest {
 
     private static int threadTotal = 200;
 
     private static int clientTotal = 5000;
 
-    private static HashSet<Integer> set = Sets.newHashSet();
+    private static HashMap<Integer, Integer> map = Maps.newHashMap();
 
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -42,7 +39,7 @@ public class HashSetTest {
             executorService.execute(() -> {
                 try {
                     semaphore.acquire();
-                    setAdd(count);
+                    mapPut(count);
                     semaphore.release();
                 } catch (InterruptedException e) {
                     log.error("exception", e);
@@ -52,10 +49,10 @@ public class HashSetTest {
         }
         countDownLatch.await();
         executorService.shutdown();
-        log.info("size: {},time : {}秒", set.size(), (System.currentTimeMillis() - start) / 1000f);
+        log.info("size: {},time : {}秒", map.size(), (System.currentTimeMillis() - start) / 1000f);
     }
 
-    private static void setAdd(int i) {
-        set.add(i);
+    private static void mapPut(int i) {
+        map.put(i, i);
     }
 }

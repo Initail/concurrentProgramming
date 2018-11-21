@@ -1,16 +1,10 @@
-package com.dry3.concurrentProgramming.immutable;
+package com.dry3.concurrentProgramming.example.immutable;
 
 import com.dry3.concurrentProgramming.annotations.NotRecommend;
-import com.dry3.concurrentProgramming.annotations.NotThreadSafe;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * final 修饰符进行修饰

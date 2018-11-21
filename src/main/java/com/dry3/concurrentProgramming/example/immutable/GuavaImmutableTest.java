@@ -1,11 +1,8 @@
-package com.dry3.concurrentProgramming.immutable;
+package com.dry3.concurrentProgramming.example.immutable;
 
 import com.dry3.concurrentProgramming.annotations.ThreadSafe;
 import com.google.common.collect.*;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Collections;
-import java.util.Map;
 
 /**
  * Guava调用ImmutableXXX来实现不可变对象
@@ -25,9 +22,10 @@ public class GuavaImmutableTest {
     public static ImmutableSet set = ImmutableSet.copyOf(list);
 
     public static void main(String[] args) {
+       /*  成员变量是不可变得  所以显示方法已废弃
         map.put(1, 3);
         list.add(6);
-        set.add(5);
+        set.add(5);*/
         log.info("{}", map);
     }
 

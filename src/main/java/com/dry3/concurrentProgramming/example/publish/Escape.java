@@ -1,4 +1,4 @@
-package com.dry3.concurrentProgramming.publish;
+package com.dry3.concurrentProgramming.example.publish;
 
 import lombok.extern.slf4j.Slf4j;
 

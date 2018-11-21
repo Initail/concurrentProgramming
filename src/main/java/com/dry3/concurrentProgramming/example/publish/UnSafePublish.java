@@ -1,4 +1,4 @@
-package com.dry3.concurrentProgramming.publish;
+package com.dry3.concurrentProgramming.example.publish;
 
 import com.dry3.concurrentProgramming.annotations.NotRecommend;
 import com.dry3.concurrentProgramming.annotations.NotThreadSafe;

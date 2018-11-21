@@ -1,4 +1,4 @@
-package com.dry3.concurrentProgramming.singleton;
+package com.dry3.concurrentProgramming.example.singleton;
 
 import com.dry3.concurrentProgramming.annotations.NotRecommend;
 import com.dry3.concurrentProgramming.annotations.ThreadSafe;
@@ -14,22 +14,26 @@ import com.dry3.concurrentProgramming.annotations.ThreadSafe;
  */
 @ThreadSafe
 @NotRecommend
-public class HungerHanMode {
+public class HungerHanMode2 {
 
     //私有化构造函数
-    private HungerHanMode() {
+    private HungerHanMode2() {
 
     }
 
     // 单例对象
-    private static HungerHanMode instance = new HungerHanMode();
+    private static HungerHanMode2 instance = null;
+
+    static {
+        instance = new HungerHanMode2();
+    }
 
     // 静态工厂方法
-    public static HungerHanMode getInstance() {
+    public static HungerHanMode2 getInstance() {
         return instance;
     }
 
     public static void main(String[] args) {
-        getInstance();
+        getInstance().hashCode();
     }
 }

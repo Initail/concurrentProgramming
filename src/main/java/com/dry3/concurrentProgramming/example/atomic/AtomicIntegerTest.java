@@ -1,6 +1,5 @@
-package com.dry3.concurrentProgramming.atomic;
+package com.dry3.concurrentProgramming.example.atomic;
 
-import com.dry3.concurrentProgramming.annotations.NotThreadSafe;
 import com.dry3.concurrentProgramming.annotations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,7 +8,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.LongAdder;
 
 /**
  * @author Administrator
@@ -20,14 +18,14 @@ import java.util.concurrent.atomic.LongAdder;
 
 @Slf4j
 @ThreadSafe
-public class LongAdderTest {
+public class AtomicIntegerTest {
 
     private static int threadTotal = 50;
 
     private static int clientTotal = 5000;
 
 
-    private static LongAdder longAdder = new LongAdder();
+    private static AtomicInteger atomicInteger = new AtomicInteger();
 
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -37,7 +35,7 @@ public class LongAdderTest {
             executorService.execute(() -> {
                 try {
                     semaphore.acquire();
-                    increment();
+                    incrementAndGet();
                     semaphore.release();
                 } catch (InterruptedException e) {
                     log.error("exception",e);
@@ -47,11 +45,10 @@ public class LongAdderTest {
         }
         countDownLatch.await();
         executorService.shutdown();
-        log.info("longAdder:{}", longAdder);
+        log.info("atomicInteger:{}", atomicInteger.get());
     }
 
-
-    private static void increment() {
-        longAdder.increment();
+    private static void incrementAndGet() {
+        atomicInteger.incrementAndGet();
     }
 }

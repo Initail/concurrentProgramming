@@ -1,4 +1,4 @@
-package com.dry3.concurrentProgramming.atomic;
+package com.dry3.concurrentProgramming.example.atomic;
 
 import com.dry3.concurrentProgramming.annotations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Administrator
@@ -18,14 +18,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @ThreadSafe
-public class AtomicIntegerTest {
+public class AtomicLongTest {
 
     private static int threadTotal = 50;
 
     private static int clientTotal = 5000;
 
 
-    private static AtomicInteger atomicInteger = new AtomicInteger();
+    private static AtomicLong atomicLong = new AtomicLong();
 
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -45,10 +45,10 @@ public class AtomicIntegerTest {
         }
         countDownLatch.await();
         executorService.shutdown();
-        log.info("atomicInteger:{}", atomicInteger.get());
+        log.info("atomicLong:{}", atomicLong.get());
     }
 
     private static void incrementAndGet() {
-        atomicInteger.incrementAndGet();
+        atomicLong.incrementAndGet();
     }
 }

@@ -1,4 +1,4 @@
-package com.dry3.concurrentProgramming.singleton;
+package com.dry3.concurrentProgramming.example.singleton;
 
 import com.dry3.concurrentProgramming.annotations.NotThreadSafe;
 

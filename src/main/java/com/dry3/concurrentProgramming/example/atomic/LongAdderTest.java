@@ -1,54 +1,55 @@
-package com.dry3.concurrentProgramming.unsafe;
+package com.dry3.concurrentProgramming.example.atomic;
 
-import com.dry3.concurrentProgramming.annotations.NotThreadSafe;
+import com.dry3.concurrentProgramming.annotations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
- * 测试StringBuilder 在多线程运行场景的情况
- *
  * @author Administrator
  * @email zyl@dry3.cn
- * @date 2018/11/21
- * @time 14:36
+ * @date 2018/11/18
+ * @time 9:47
  */
+
 @Slf4j
-@NotThreadSafe
-public class StringBuilderTest {
+@ThreadSafe
+public class LongAdderTest {
 
-    private static int threadTotal = 200;
+    private static int threadTotal = 50;
 
-    private static int clientTotal = 500000;
+    private static int clientTotal = 5000;
 
-    private static StringBuilder stringBuilder = new StringBuilder();
+
+    private static LongAdder longAdder = new LongAdder();
 
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
         Semaphore semaphore = new Semaphore(threadTotal);
         CountDownLatch countDownLatch = new CountDownLatch(clientTotal);
-        Long start = System.currentTimeMillis();
         for (int i = 0; i < clientTotal; i++) {
             executorService.execute(() -> {
                 try {
                     semaphore.acquire();
-                    builderAppend();
+                    increment();
                     semaphore.release();
                 } catch (InterruptedException e) {
-                    log.error("exception", e);
+                    log.error("exception",e);
                 }
                 countDownLatch.countDown();
             });
         }
         countDownLatch.await();
         executorService.shutdown();
-        log.info("length : {}, time : {}秒", stringBuilder.length(), (System.currentTimeMillis() - start) / 1000f);
+        log.info("longAdder:{}", longAdder);
     }
 
-    private static void builderAppend() {
-        stringBuilder.append(1);
+
+    private static void increment() {
+        longAdder.increment();
     }
 }
