@@ -9,6 +9,8 @@ import java.util.concurrent.Executors;
 
 /**
  * 枚举模式
+ *      相比懒汉模式能保证线程的安全性
+ *      相比饿汉模式能保证只在第一次调用暴露的方法时才进行初始化, 后续调用不进行初始化保证资源的合理利用
  * 在调用内部枚举类时候JVM可以保证只执行一次初始化类的操作
  *
  * @author Administrator

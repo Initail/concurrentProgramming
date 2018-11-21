@@ -23,5 +23,7 @@
 /dist/
 /nbdist/
 /.nb-gradle/
-src/main/resources/static/
+src/main/resources/static/gi
 src/main/resources/templates/
+/mvnw
+/mvnw.cmd
