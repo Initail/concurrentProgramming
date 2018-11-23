@@ -1,31 +1,31 @@
-package com.dry3.concurrentProgramming.example.unsafe;
+package com.dry3.concurrentProgramming.example.concurrent;
 
-import com.dry3.concurrentProgramming.annotations.NotThreadSafe;
+import com.dry3.concurrentProgramming.annotations.ThreadSafe;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
 /**
- * HashMap是线程不安全的
- *
+ * HashMap => concurrentHashMap
  * @author Administrator
  * @email zyl@dry3.cn
  * @date 2018/11/21
- * @time 15:35
+ * @time 21:40
  */
-
+@ThreadSafe
 @Slf4j
-@NotThreadSafe
-public class HashMapTest {
+public class ConcurrentHashMapTest {
 
-    private static int threadTotal = 200;
+    private static int threadTotal = 2;
 
-    private static int clientTotal = 5000;
+    private static int clientTotal = 5000000;
 
-    private static HashMap<Integer, Integer> map = Maps.newHashMap();
+    private static Map<Integer, Integer> map = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -37,7 +37,7 @@ public class HashMapTest {
             executorService.execute(() -> {
                 try {
                     semaphore.acquire();
-                    hashMapPut(count);
+                    concurrentHashMapPut(count);
                     semaphore.release();
                 } catch (InterruptedException e) {
                     log.error("exception", e);
@@ -50,7 +50,7 @@ public class HashMapTest {
         log.info("size: {},time : {}秒", map.size(), (System.currentTimeMillis() - start) / 1000f);
     }
 
-    private static void hashMapPut(int i) {
+    private static void concurrentHashMapPut(int i) {
         map.put(i, i);
     }
 }
